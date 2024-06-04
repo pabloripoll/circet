@@ -6,14 +6,27 @@ use App\Http\Response;
 
 class ViewController
 {
+    protected function data()
+    {
+        return $data = new \stdClass;
+    }
+
     public function home()
     {
-        return (new Response)->view('home');
+        $data = $this->data();
+
+        $data->page = 'home';
+
+        return (new Response)->view('home', $data);
     }
 
     public function example()
     {
-        return (new Response)->view('example');
+        $data = $this->data();
+
+        $data->page = 'example';
+
+        return (new Response)->view('example', $data);
     }
 
 }

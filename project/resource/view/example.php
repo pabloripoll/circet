@@ -1,6 +1,6 @@
 <?= $this->view('_common.head'); ?>
 
-<?= $this->view('_common.header'); ?>
+<?= $this->view('_common.header', ['page' => $page]); ?>
 
 <div class="py-5 text-center">
     <h2>Example Page</h2>
