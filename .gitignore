@@ -25,3 +25,4 @@ dist-ssr
 *.local
 
 temp
+project/public/theme/bootstrap/example/*
