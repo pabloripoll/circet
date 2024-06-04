@@ -1,6 +1,6 @@
 services:
   nginx-php:
-    image: ${COMPOSE_PROJECT_NAME}:${COMPOSE_PROJECT_ABBR}
+    image: ${COMPOSE_PROJECT_NAME}:${COMPOSE_PROJECT_ABBR}${COMPOSE_PROJECT_IMGK}
     pull_policy: never
     build:
       context: ./

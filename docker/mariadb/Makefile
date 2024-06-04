@@ -13,10 +13,14 @@ include ../../.env
 DOCKER_PROJ=$(PROJECT_NAME)
 DOCKER_ABBR=$(PROJECT_ABBR)
 DOCKER_HOST=$(PROJECT_HOST)
-DOCKER_IMGK=$(BACKEND_IMGK)
-DOCKER_CAAS=$(BACKEND_CAAS)
-DOCKER_PORT=$(BACKEND_PORT)
-DOCKER_BIND=$(BACKEND_BIND)
+DOCKER_IMGK=$(DATABASE_IMGK)
+DOCKER_CAAS=$(DATABASE_CAAS)
+DOCKER_PORT=$(DATABASE_PORT)
+
+MYSQL_ROOT=$(DATABASE_ROOT)
+MYSQL_NAME=$(DATABASE_NAME)
+MYSQL_USER=$(DATABASE_USER)
+MYSQL_PASS=$(DATABASE_PASS)
 
 CURRENT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
 DIR_BASENAME=$(shell basename $(CURRENT_DIR))
@@ -25,9 +29,6 @@ ROOT_DIR=$(CURRENT_DIR)
 DOCKER_COMPOSE?=$(DOCKER_USER) docker compose
 DOCKER_COMPOSE_RUN=$(DOCKER_COMPOSE) run --rm
 DOCKER_EXEC_TOOLS_APP=$(DOCKER_USER) docker exec -it $(DOCKER_CAAS) sh
-
-APPLICATION_UPDATE="composer update"
-APPLICATION_INSTALL='composer require --dev phpunit/phpunit ^11'
 
 help: ## shows this Makefile help message
 	echo 'usage: make [target]'
@@ -61,19 +62,22 @@ env: ## checks if docker .env file exists
 	Create it by executing "${C_YEL}"$$ make env-set"${C_END}; \
 	fi
 
-env-set: ## sets docker .env file
+env-set:
 	echo "COMPOSE_PROJECT_ABBR=\"$(DOCKER_ABBR)\"\
 	\nCOMPOSE_PROJECT_IMGK=\"$(DOCKER_IMGK)\"\
 	\nCOMPOSE_PROJECT_NAME=\"$(DOCKER_CAAS)\"\
 	\nCOMPOSE_PROJECT_HOST=\"$(DOCKER_HOST)\"\
 	\nCOMPOSE_PROJECT_PORT=$(DOCKER_PORT)\
-	\nCOMPOSE_PROJECT_PATH=\"$(DOCKER_BIND)\"" > ./docker/.env; \
+	\nMYSQL_ROOT_PASSWORD=\"$(MYSQL_ROOT)\"\
+	\nMYSQL_DATABASE=$(MYSQL_NAME)\
+	\nMYSQL_USER=$(MYSQL_USER)\
+	\nMYSQL_PASSWORD=\"$(MYSQL_PASS)\""> ./docker/.env;
 	echo ${C_BLU}"$(DOCKER_PROJ)"${C_END}" docker-compose.yml .env file "${C_GRN}"has been set."${C_END};
 
 # -------------------------------------------------------------------------------------------------
 #  Container
 # -------------------------------------------------------------------------------------------------
-.PHONY: container-ip ssh build up start stop restart clear destroy dev
+.PHONY: container-ip ssh build install dev up start first stop restart clear
 
 container-ip:
 	$(DOCKER_USER) docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(DOCKER_NAME)
@@ -106,28 +110,3 @@ destroy: ## delete container image from Docker - Docker prune commands still nee
 
 dev: ## set a development enviroment
 	echo ${C_YEL}"\"dev\" recipe has not usage in this project"${C_END};
-
-# -------------------------------------------------------------------------------------------------
-#  Container Application
-# -------------------------------------------------------------------------------------------------
-.PHONY: app-install app-update
-
-app-install: ## installs the application an dependencies packages
-	cd docker && $(DOCKER_EXEC_TOOLS_APP) -c $(APPLICATION_INSTALL)
-
-app-update: ## updates dependencies packages
-	cd docker && $(DOCKER_EXEC_TOOLS_APP) -c $(APPLICATION_UPDATE)
-
-# -------------------------------------------------------------------------------------------------
-#  Container update on the run
-# -------------------------------------------------------------------------------------------------
-.PHONY: nginx-conf php-conf php-fpm-conf
-
-nginx-conf: ## updates any configuration NGINX changes while container is running
-	$(DOCKER_USER) docker run -v "`pwd`/nginx-server.conf:/etc/nginx/conf.d/server.conf" $(DOCKER_CAAS):$(DOCKER_ABBR)$(DOCKER_IMGK)
-
-php-conf: ## updates any configuration PHP changes while container is running
-	$(DOCKER_USER) docker run -v "`pwd`/php-setting.ini:/etc/php83/conf.d/settings.ini" $(DOCKER_CAAS)
-
-php-fpm-conf: ## updates any configuration PHP-FPM changes while container is running
-	$(DOCKER_USER) docker run -v "`pwd`/php-fpm-settings.conf:/etc/php83/php-fpm.d/server.conf" $(DOCKER_CAAS)

@@ -10,8 +10,6 @@ C_END='\033[0m'
 
 include .env
 
-DOCKER_TITLE=$(PROJECT_TITLE)
-
 CURRENT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
 DIR_BASENAME=$(shell basename $(CURRENT_DIR))
 ROOT_DIR=$(CURRENT_DIR)
@@ -35,36 +33,61 @@ fix-permission: ## sets project directory permission
 	$(DOCKER_USER) chown -R ${USER}: $(ROOT_DIR)/
 
 host-check: ## shows this project ports availability on local machine
+	cd docker/mariadb && $(MAKE) port-check
 	cd docker/nginx-php && $(MAKE) port-check
 
 # -------------------------------------------------------------------------------------------------
-#  PHP App Service
+#  Application Service
 # -------------------------------------------------------------------------------------------------
-.PHONY: project-ssh project-set project-create project-start project-stop project-destroy project-install project-update
-
-project-ssh: ## enters the project container shell
-	cd docker/nginx-php && $(MAKE) ssh
+.PHONY: project-set project-create project-start project-stop project-destroy
 
 project-set: ## sets the project enviroment file to build the container
+	cd docker/mariadb && $(MAKE) env-set
 	cd docker/nginx-php && $(MAKE) env-set
 
 project-create: ## creates the project container from Docker image
+	cd docker/mariadb && $(MAKE) env-set build up
 	cd docker/nginx-php && $(MAKE) env-set build up
 
 project-start: ## starts the project container running
+	cd docker/mariadb && $(MAKE) start
 	cd docker/nginx-php && $(MAKE) start
 
 project-stop: ## stops the project container but data won't be destroyed
+	cd docker/mariadb && $(MAKE) stop
 	cd docker/nginx-php && $(MAKE) stop
 
 project-destroy: ## removes the project from Docker network destroying its data and Docker image
+	cd docker/mariadb && $(MAKE) clear destroy
 	cd docker/nginx-php && $(MAKE) clear destroy
 
-project-install: ## installs set version of project into container
+# -------------------------------------------------------------------------------------------------
+#  Backend Service
+# -------------------------------------------------------------------------------------------------
+.PHONY: backend-ssh backend-install backend-update
+
+backend-ssh: ## enters the backend container shell
+	cd docker/nginx-php && $(MAKE) ssh
+
+backend-install: ## installs set version of backend into container
 	cd docker/nginx-php && $(MAKE) app-install
 
-project-update: ## updates set version of project into container
+backend-update: ## updates set version of backend into container
 	cd docker/nginx-php && $(MAKE) app-update
+
+# -------------------------------------------------------------------------------------------------
+#  Database Service
+# -------------------------------------------------------------------------------------------------
+.PHONY: database-ssh database-install database-update
+
+database-ssh: ## enters the database container shell
+	cd docker/mariadb && $(MAKE) ssh
+
+database-install: ## installs set version of database into container
+	cd docker/mariadb && $(MAKE) app-install
+
+database-update: ## updates set version of database into container
+	cd docker/mariadb && $(MAKE) app-update
 
 # -------------------------------------------------------------------------------------------------
 #  Repository Helper
