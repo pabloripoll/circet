@@ -67,15 +67,44 @@ $ make project-set
 ## Levantar Contenedores
 
 ```bash
-$ make project-set
+$ make project-create
 ```
 
-## Remove project
+El projecto backend estará disponible en el puerto establecido.
+
+## Cliente de Base de Datos
+
+Para utilizar un cliente de base de datos, ejecute el siguiente comando para optener la ip de conexión
+
+```bash
+$ make hostname
+```
+
+Así pues, con los datos establecidos para la conexión  según el .env de ejemplo, serán:
+
+```
+Hostname / IP: ----- 192.168.1.41
+Port: -------------- 8889
+User: -------------- mariadb
+Password: ---------- 123456
+```
+
+## Conectar Contenedores
+
+Para conectar el servicio "backend" con la "base de datos" se deberá utilizar los mismos datos que para la conexión con el cliente de base de datos.
+
+
+## Detener los Contenedores
 
 ```bash
 $ make project-stop
 ```
 
+Para eliminar las imágenes creadas para los contenedores, y así limpiar el espacio utilizado en ordenador local, ejecutar los siguientes comandos:
+
+```bash
+$ make project-destroy
+```
 
 ```bash
 $ sudo docker system prune
@@ -108,7 +137,7 @@ Makefile  repo-flush              clears local git repository cache specially to
 Makefile  repo-commit             echoes commit helper commands
 ```
 
-## Fuentes:
+## Repositorios de referencia:
 
--
+- https://github.com/pabloripoll/docker-mariadb-10.11
 - https://github.com/pabloripoll/docker-php-8.3-service
