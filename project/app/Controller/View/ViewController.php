@@ -2,11 +2,9 @@
 
 namespace App\Controller\View;
 
+use App\Domain\User;
 use App\Http\Request;
 use App\Http\Response;
-use App\Database\ClusterA;
-use App\Support\Debug;
-use PDO;
 
 class ViewController
 {
@@ -16,8 +14,6 @@ class ViewController
 
         $data->page = 'home';
 
-        $data->result = ClusterA::sql()->select("SELECT * FROM users");
-
         return (new Response)->view('home', $data);
     }
 
@@ -26,6 +22,8 @@ class ViewController
         $data = new \stdClass;
 
         $data->page = 'listing';
+
+        $data->result = User::inscription()->get()->all();
 
         return (new Response)->view('listing', $data);
     }
