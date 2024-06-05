@@ -21,4 +21,12 @@ class UserInscriptionGetCase
         return $result;
     }
 
+    public function byId(int $id)
+    {
+        $query = "SELECT * FROM ".$this->table()." WHERE id='$id'";
+        $result = (new ClusterA)->select($query);
+
+        return ! $result ? [] : $result[0];
+    }
+
 }

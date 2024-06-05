@@ -96,7 +96,7 @@ abstract class Kernel
 
         $params = filter_input_array(INPUT_GET);
 
-        return ! $value ? $params : $params[$value];
+        return ! $value ? $params : (! isset($params[$value]) ? : $params[$value]);
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class Kernel
 
         $params = filter_input_array(INPUT_POST) ?? json_decode(file_get_contents("php://input"), true);
 
-        return ! $value ? $params : $params[$value];
+        return ! $value ? $params : (! isset($params[$value]) ? : $params[$value]);
     }
 
     /**

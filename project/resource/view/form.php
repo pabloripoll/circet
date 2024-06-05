@@ -11,32 +11,32 @@
 </div>
 <div class="row g-5">
     <div class="col-md-12">
-        <h4 class="mb-3">Inscription Form</h4>
+        <h4 class="mb-3">Inscription Form <?= (! isset($register) ? : '- Update ID: '.($register->id ?? 'NOT FOUND')) ?></h4>
         <form id="inscription" class="needs-validation" onsubmit="return false" novalidate>
             <div class="row g-3">
                 <div class="col-sm-6">
                     <label for="name" class="form-label">First name</label>
-                    <input type="text" class="form-control" id="name" value="" placeholder="" required>
+                    <input type="text" class="form-control" id="name" value="<?= $register->name ?? '' ?>" placeholder="" required>
                     <div class="invalid-feedback">Valid first name is required.</div>
                 </div>
                 <div class="col-sm-6">
                     <label for="surname" class="form-label">Last name</label>
-                    <input type="text" class="form-control" id="surname" placeholder="" value="" required>
+                    <input type="text" class="form-control" id="surname" placeholder="" value="<?= $register->surname ?? '' ?>" required>
                     <div class="invalid-feedback">Valid last name is required.</div>
                 </div>
                 <div class="col-6">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com" value="<?= $register->email ?? '' ?>" required>
                     <div class="invalid-feedback">Please enter a valid email address for shipping updates.</div>
                 </div>
                 <div class="col-6">
                     <label for="phone" class="form-label">Phone <span class="text-body-secondary">(Optional)</span></label>
-                    <input type="phone" class="form-control" id="phone" placeholder="+34 555 555 555">
+                    <input type="phone" class="form-control" id="phone" placeholder="+34 555 555 555" value="<?= $register->phone ?? '' ?>">
                     <div class="invalid-feedback">Please enter a valid phone number.</div>
                 </div>
                 <div class="col-12">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" value="<?= $register->address ?? '' ?>" required>
                     <div class="invalid-feedback">Please enter your shipping address.</div>
                 </div>
             </div>

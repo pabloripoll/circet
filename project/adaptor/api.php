@@ -2,18 +2,15 @@
 
 use App\Http\Route;
 use App\Http\Response;
-use App\Controller\Action\InscriptionController;
+use App\Controller\View\ApiController;
 
 Route::get('/', function() {
     return (new Response)->json(['data' => 'no resource']);
 });
 
-Route::get('/inscription', [InscriptionController::class, 'read']);
+Route::post('/inscription', [ApiController::class, 'inscriptionCreate']);
+Route::get('/inscription', [ApiController::class, 'inscriptionRead']);
+Route::put('/inscription', [ApiController::class, 'inscriptionUpdate']);
+Route::delete('/inscription', [ApiController::class, 'inscriptionDelete']);
 
-Route::put('/inscription', [InscriptionController::class, 'update']);
-
-Route::post('/inscription', [InscriptionController::class, 'create']);
-
-Route::delete('/inscription', [InscriptionController::class, 'delete']);
-
-Route::get('/inscription/listing', [InscriptionController::class, 'read']);
+Route::get('/inscriptions', [ApiController::class, 'inscriptionAllRead']);

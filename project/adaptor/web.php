@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Route;
-use App\Controller\View\ViewController;
+use App\Controller\View\WebController;
 
-Route::get('/', [ViewController::class, 'form']);
+Route::get('/', [WebController::class, 'form']);
 
-Route::get('/form', [ViewController::class, 'form']);
+Route::get('/form', [WebController::class, 'form']);
 
-Route::get('/listing', [ViewController::class, 'listing']);
+Route::get('/listing', [WebController::class, 'listing']);
