@@ -64,7 +64,7 @@ class Route
     public static function put(string | array $path, $function)
     {
         if ((new self)->request->method() == 'put') {
-            return (new self)->register($path, $function);
+            return (new self)->identifier($path, $function);
         }
     }
 

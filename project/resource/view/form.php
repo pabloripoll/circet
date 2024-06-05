@@ -160,19 +160,17 @@ function formSender(event) {
         terms: document.querySelector('#terms').value
     }
 
-    //console.log(bundle)
     if (formType.value == 'create') {
         jsonPost(bundle).then((response) => {
             formHandler(response)
-            //console.log(response)
         }).catch((error) => {
             formErrorHandler(error)
         })
     }
+
     if (formType.value == 'update') {
         jsonPut(bundle).then((response) => {
             formHandler(response)
-            //console.log(response)
         }).catch((error) => {
             formErrorHandler(error)
         })

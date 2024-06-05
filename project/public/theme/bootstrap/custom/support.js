@@ -65,15 +65,25 @@ async function formPost(bundle) {
     return postRespond
 }
 
-async function jsonDelete(bundle) {
-    const deleteRequest = await fetch(bundle.url, {
-        method  : 'DELETE',
-        /* headers : {
+async function jsonPut(bundle) {
+    const putRequest = await fetch(bundle.url, {
+        method  : 'PUT',
+        headers : {
             Accept          : "application/json",
             dataType        : "json",
             contentType     : 'application/json',
         },
-        body : JSON.stringify(bundle.data) */
+        body : JSON.stringify(bundle.data)
+    })
+
+    const putRespond = await putRequest.json()
+
+    return putRespond
+}
+
+async function jsonDelete(bundle) {
+    const deleteRequest = await fetch(bundle.url, {
+        method  : 'DELETE'
     })
 
     const deleteRespond = await deleteRequest.json()
