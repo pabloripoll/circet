@@ -6,13 +6,12 @@
     <h2>Listing Page</h2>
     <br>
     <p class="lead">
-        <?= print_r($result) ?><br><br>
         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
     </p>
 </div>
 <div class="row g-5">
     <div class="col-md-12">
-        <h4 class="mb-3">Contract List</h4>
+        <h4 class="mb-3">Inscriptions List</h4>
 
         <div class="bd-example">
 
@@ -22,29 +21,39 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Names</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Last Updated</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    <?php
+                    if (! $result):
+                        ?>
+                        <tr align="center">
+                            <th colspan="6">no registers</th>
+                        </tr>
+                        <?php
+                    else:
+                        foreach ($result as $row):
+                        ?>
+                            <tr id="row-<?= $row->id ?>">
+                                <th scope="row"><?= $row->id ?></th>
+                                <td><?= $row->name.' '.$row->surname ?></td>
+                                <td><?= $row->email ?></td>
+                                <td><?= $row->phone ?></td>
+                                <td><?= $row->updated_at ?></td>
+                                <td>
+                                    <a href="/form?id=<?= $row->id ?>" title="update register <?= $row->email ?>">edit</a> |
+                                    <a href="#" onclick="delete(<?= $row->id ?>)" title="delete register <?= $row->email ?>">del</a>
+                                </td>
+                            </tr>
+                        <?php
+                        endforeach;
+                    endif;
+                    ?>
                 </tbody>
 
             </table>

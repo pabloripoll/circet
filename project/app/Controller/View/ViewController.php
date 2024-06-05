@@ -8,13 +8,13 @@ use App\Http\Response;
 
 class ViewController
 {
-    public function home()
+    public function form()
     {
         $data = new \stdClass;
 
-        $data->page = 'home';
+        $data->page = 'form';
 
-        return (new Response)->view('home', $data);
+        return (new Response)->view('form', $data);
     }
 
     public function listing(Request $request)
@@ -26,11 +26,6 @@ class ViewController
         $data->result = User::inscription()->repository()->get()->all();
 
         return (new Response)->view('listing', $data);
-    }
-
-    public function example()
-    {
-        return (new Response)->view('example', ['page' => 'example']);
     }
 
 }

@@ -3,7 +3,7 @@
 <?= $this->view('_common.header', ['page' => $page]); ?>
 
 <div class="py-5 text-center">
-    <h2>Inscription</h2>
+    <h2>Register Page</h2>
     <p class="lead">
         Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be
         triggered by attempting to submit the form without completing it.
@@ -11,17 +11,17 @@
 </div>
 <div class="row g-5">
     <div class="col-md-12">
-        <h4 class="mb-3">Contract Form</h4>
+        <h4 class="mb-3">Inscription Form</h4>
         <form id="inscription" class="needs-validation" onsubmit="return false" novalidate>
             <div class="row g-3">
                 <div class="col-sm-6">
-                    <label for="firstName" class="form-label">First name</label>
-                    <input type="text" class="form-control" id="firstName" value="" placeholder="" required>
+                    <label for="name" class="form-label">First name</label>
+                    <input type="text" class="form-control" id="name" value="" placeholder="" required>
                     <div class="invalid-feedback">Valid first name is required.</div>
                 </div>
                 <div class="col-sm-6">
-                    <label for="lastName" class="form-label">Last name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                    <label for="surname" class="form-label">Last name</label>
+                    <input type="text" class="form-control" id="surname" placeholder="" value="" required>
                     <div class="invalid-feedback">Valid last name is required.</div>
                 </div>
                 <div class="col-6">
@@ -42,8 +42,8 @@
             </div>
             <hr class="my-4">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="terms-acceptance" value="false">
-                <label class="form-check-label" for="terms-acceptance">I agreed with with <a href="#">"Terms of Use"</a></label>
+                <input type="checkbox" class="form-check-input" id="terms" value="false">
+                <label class="form-check-label" for="terms">I agreed with with <a href="#">"Terms of Use"</a></label>
             </div>
             <hr class="my-4">
             <button class="w-100 btn btn-primary btn-lg" type="submit">Confirm and Send</button>
@@ -57,12 +57,12 @@ function captureFormFields(event) {
     let bundle = {}
     bundle.url  = `/api/inscription`,
     bundle.data = {
-        firstName: document.querySelector('#firstName').value,
-        lastName: document.querySelector('#lastName').value,
+        name: document.querySelector('#name').value,
+        surname: document.querySelector('#surname').value,
         email: document.querySelector('#email').value,
         phone: document.querySelector('#phone').value,
         address: document.querySelector('#address').value,
-        terms: document.querySelector('#terms-acceptance').value
+        terms: document.querySelector('#terms').value
     }
 
     jsonPost(bundle).then((response) => {

@@ -85,13 +85,10 @@
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>
-                    <a href="/" class="nav-link px-2 link-<?= ($page == 'home' ? 'body-emphasis' : 'secondary') ?>">Home</a>
+                    <a href="/" class="nav-link px-2 link-<?= ($page == 'form' ? 'body-emphasis' : 'secondary') ?>">Form</a>
                 </li>
                 <li>
                     <a href="/listing" class="nav-link px-2 link-<?= ($page == 'listing' ? 'body-emphasis' : 'secondary') ?>">Listing</a>
-                </li>
-                <li>
-                    <a href="/example" class="nav-link px-2 link-<?= ($page == 'example' ? 'body-emphasis' : 'secondary') ?>">Example</a>
                 </li>
             </ul>
 

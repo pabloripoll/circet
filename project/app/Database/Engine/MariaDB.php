@@ -60,7 +60,7 @@ class MariaDB
 
             if ($stmt->execute()) {
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $result[] = $row;
+                    $result[] = (object) $row;
                 }
             }
 

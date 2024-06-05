@@ -11,21 +11,24 @@ class InscriptionController
 {
     public function create(Request $request)
     {
-        //$response = new \stdClass;
+        $response = new \stdClass;
 
         $entity = (object) [
             'terms' => 1,
-            'name' => $request->post('firstName'),
-            'surname' => $request->post('lastName'),
+            'name' => $request->post('name'),
+            'surname' => $request->post('surame'),
             'email' => $request->post('email'),
             'phone' => $request->post('phone'),
-            'address' => $request->post('address'),
-            'created_at' => date('Y-m-d H:i:s')
+            'address' => $request->post('address')
         ];
 
-        $response = User::inscription()->repository()->set($entity);
+        $result = User::inscription()->repository()->set($entity);
 
-        return (new Response)->json(['data' => $response]);
+        if (isset($result['error'])) {
+            return (new Response)->json($result);
+        }
+
+        return (new Response)->json(['data' => $result]);
     }
 
 }
