@@ -1,10 +1,12 @@
 <?php
 
+/**
+ * Route handler for all methods
+ */
+
 namespace App\Http;
 
 use App\Http\Request;
-use App\Http\Response;
-use App\Support\Debug;
 
 class Route
 {

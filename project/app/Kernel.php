@@ -1,10 +1,7 @@
 <?php
 
 /**
- * The kernel provides applications with system services such as I/O management, virtual memory, and scheduling.
- * The kernel coordinates interactions of all user processes and system resources.
- * The kernel assigns priorities, services resource requests, and services hardware interrupts and exceptions.
- * https://docs.oracle.com/cd/E19253-01/817-5789/emjjp/index.html
+ * Kernel grab all requests to the application
  */
 
 namespace App;

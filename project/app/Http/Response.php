@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * All kinds of application response must be set through this object
+ */
+
 namespace App\Http;
 
 class Response
