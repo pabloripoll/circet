@@ -44,20 +44,13 @@ async function formPost(bundle) {
         }
     }
 
-    /* if (data.function) formData.append('function', data.function);
-    if (data.action) formData.append('action', data.action); */
     if (bundle.data) formData.append('data', JSON.stringify(bundle.data));
 
     formData.append('enctype', 'multipart/form-data');
 
     const postRequest = await fetch(bundle.url, {
-        //mode: 'no-cors',
         method: 'POST',
-        body: formData,
-        /* headers: {
-            "Access-Control-Allow-Origin": "*"//,
-            //"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        }, */
+        body: formData
     })
 
     const postRespond = await postRequest.json()
