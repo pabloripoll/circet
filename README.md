@@ -93,6 +93,61 @@ Password: ---------- 123456
 
 Para conectar el servicio "backend" con la "base de datos" se deberá utilizar los mismos datos que para la conexión con el cliente de base de datos.
 
+La conexión a la base de datos desde la aplicación, se establece desde [project/app/Database/Client/ClusterA.php](project/app/Database/Client/ClusterA.php)
+
+```php
+namespace App\Database\Client;
+
+use App\Database\Engine\MariaDB;
+
+class ClusterA extends MariaDB
+{
+    /**
+     * Restricted access to connection params
+     */
+	private function getConnection()
+	{
+        $params = new \stdClass;
+        $params->host = '192.168.1.41:8889'; // IP:PORT
+        $params->user = 'mariadb';
+        $params->pass = '123456';
+        $params->name = 'mariadb';
+
+        return (new MariaDB)->connect($params);
+	}
+
+    /**
+     * Public access to connect
+     */
+    public function __construct()
+	{
+        $this->_connection = $this->getConnection();
+	}
+
+}
+```
+
+El motor SQL para administrar la base de datos ha sido establecido en [project/app/Database/Engine/MariaDB.php](project/app/Database/Engine/MariaDB.php)
+
+## Uso de base de datos
+
+Existe una copia de la base de datos es su modo de migración inicial. Para establecer este estado de la BBDD, ejecute:
+
+```bash
+$ database-install
+```
+
+Para utilizar un estado avanzado de la BBDD, ejecute:
+
+```bash
+$ database-replace
+```
+
+Para create una copia de la BBDD en su estado actual, ejecute:
+
+```bash
+$ database-backup
+```
 
 ## Detener los Contenedores
 
