@@ -71,7 +71,9 @@ function remove(id) {
     bundle.url  = `/api/inscription/${id}`
 
     jsonDelete(bundle).then((response) => {
-        console.log(response)
+        location.href = ``
+    }).catch((error) => {
+        console.log(error)
     })
 }
 </script>

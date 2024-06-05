@@ -89,6 +89,7 @@ function formAvailability(state = true) {
     }
 
     submitButton.classList.add(`btn-primary`)
+    submitButton.classList.remove(`btn-success`)
     submitButton.classList.remove(`btn-secondary`)
     submitButton.innerHTML = `Confirm and Send`
 
@@ -104,6 +105,7 @@ function formStatus(state = 'neutral') {
         submitStatus.innerHTML = '&nbsp;'
         submitStatus.classList.add(`alert-light`)
         submitStatus.classList.remove(`alert-danger`)
+        submitStatus.classList.remove(`alert-success`)
 
         return
     }
@@ -116,7 +118,7 @@ function formStatus(state = 'neutral') {
     }
 
     if (state == 'success') {
-        submitStatus.innerHTML = 'Register Created!'
+        submitStatus.innerHTML = formType.value == 'create' ? `Register Created!` : `Register Updated!`
         submitStatus.classList.add(`alert-success`)
         submitStatus.classList.remove(`alert-light`)
 
@@ -131,7 +133,7 @@ function formHandler(response) {
         formStatus('danger')
         setTimeout(formStatus, 3000, 'neutral')
     }
-    if (response.created) {
+    if (response.created || response.updated) {
         formAvailability('finished')
         formStatus('success')
     }
@@ -171,6 +173,8 @@ function formSender(event) {
     if (formType.value == 'update') {
         jsonPut(bundle).then((response) => {
             formHandler(response)
+            setTimeout(formAvailability, 3000, true)
+            setTimeout(formStatus, 3000, 'neutral')
         }).catch((error) => {
             formErrorHandler(error)
         })

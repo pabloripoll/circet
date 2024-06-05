@@ -13,12 +13,12 @@ class ApiController
     public function inscriptionCreate(Request $request)
     {
         $entity = (object) [
-            'terms' => $request->post('terms') ?? '',
-            'name' => $request->post('name') ?? '',
-            'surname' => $request->post('surname') ?? '',
-            'email' => $request->post('email') ?? '',
-            'phone' => $request->post('phone') ?? '',
-            'address' => $request->post('address') ?? ''
+            'terms' => trim($request->post('terms')) ?? '',
+            'name' => trim($request->post('name')) ?? '',
+            'surname' => trim($request->post('surname')) ?? '',
+            'email' => trim($request->post('email')) ?? '',
+            'phone' => trim($request->post('phone')) ?? '',
+            'address' => trim($request->post('address')) ?? ''
         ];
 
         $result = (new InscriptionController)->create($entity);
@@ -32,22 +32,24 @@ class ApiController
 
     public function inscriptionUpdate(Request $request, $id)
     {
-        /* entity = (object) [
-            'terms' => $request->post('terms') ?? '',
-            'name' => $request->post('name') ?? '',
-            'surname' => $request->post('surname') ?? '',
-            'email' => $request->post('email') ?? '',
-            'phone' => $request->post('phone') ?? '',
-            'address' => $request->post('address') ?? ''
+        $request = (object) $request->input();
+
+        $entity = (object) [
+            'terms' => trim($request->terms) ?? '',
+            'name' => trim($request->name) ?? '',
+            'surname' => trim($request->surname) ?? '',
+            'email' => trim($request->email) ?? '',
+            'phone' => trim($request->phone) ?? '',
+            'address' => trim($request->address) ?? ''
         ];
 
-        $result = (new InscriptionController)->create($entity);
+        $result = (new InscriptionController)->update($entity, $id);
 
         if (isset($result['error'])) {
             return (new Response)->json($result);
-        } */
+        }
 
-        return (new Response)->json(['updated' => 1]);
+        return (new Response)->json(['updated' => $result]);
     }
 
     public function inscriptionDelete(Request $request, int $id)

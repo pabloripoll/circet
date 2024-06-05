@@ -13,7 +13,6 @@ abstract class Kernel
 {
     public $route;
     public $method;
-    public $performance = 0;
 
     public function __construct()
     {
