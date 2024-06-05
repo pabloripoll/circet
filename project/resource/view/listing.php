@@ -47,7 +47,7 @@
                                 <td><?= $row->updated_at ?></td>
                                 <td>
                                     <a href="/form?id=<?= $row->id ?>" title="update register <?= $row->email ?>">edit</a> |
-                                    <a href="#" onclick="delete(<?= $row->id ?>)" title="delete register <?= $row->email ?>">del</a>
+                                    <a href="#" onclick="remove('<?= $row->id ?>')" title="delete register <?= $row->email ?>">del</a>
                                 </td>
                             </tr>
                         <?php
@@ -64,5 +64,16 @@
 
     </div>
 </div>
+
+<script>
+function remove(id) {
+    let bundle = {}
+    bundle.url  = `/api/inscription/${id}`
+
+    jsonDelete(bundle).then((response) => {
+        console.log(response)
+    })
+}
+</script>
 
 <?= $this->view('_common.footer'); ?>

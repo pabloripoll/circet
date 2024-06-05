@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Request;
+use App\Http\Response;
+use App\Support\Debug;
 
 class Route
 {
@@ -13,7 +15,7 @@ class Route
         $this->request = new Request;
     }
 
-    protected function register(string | array $path, $function)
+    protected function register(string | array $path, $function, $id = null)
     {
         if ($path == $this->request->route()) {
             if (! is_array($function)) {
@@ -22,7 +24,25 @@ class Route
                 $class = new $function[0];
                 $method = $function[1];
 
-                return $class->$method($this->request);
+                return ! $id ? $class->$method($this->request) : $class->$method($this->request, $id);
+            }
+        }
+    }
+
+    protected function identifier(string | array $path, $function)
+    {
+        $paths = is_array($path) ? $path : [$path];
+
+        $array = (new Request)->routeParsed();
+        $value = intval(end($array));
+
+        foreach ($paths as $i => $path) {
+            if (is_int($value)) {
+                $exp = explode('/:', $path);
+                $key = end($exp);
+                $path = str_replace('/:'.$key, '/'.$value, $path);
+
+                return (new self)->register($path, $function, $value);
             }
         }
     }
@@ -30,7 +50,7 @@ class Route
     public static function get(string | array $path, $function)
     {
         if ((new self)->request->method() == 'get') {
-            return (new self)->register($path, $function);
+            return (new self)->identifier($path, $function);
         }
     }
 
@@ -58,7 +78,7 @@ class Route
     public static function delete(string | array $path, $function)
     {
         if ((new self)->request->method() == 'delete') {
-            return (new self)->register($path, $function);
+            return (new self)->identifier($path, $function);
         }
     }
 

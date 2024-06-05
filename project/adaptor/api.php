@@ -11,6 +11,6 @@ Route::get('/', function() {
 Route::post('/inscription', [ApiController::class, 'inscriptionCreate']);
 Route::get('/inscription', [ApiController::class, 'inscriptionRead']);
 Route::put('/inscription', [ApiController::class, 'inscriptionUpdate']);
-Route::delete('/inscription', [ApiController::class, 'inscriptionDelete']);
+Route::delete('/inscription/:id', [ApiController::class, 'inscriptionDelete']);
 
 Route::get('/inscriptions', [ApiController::class, 'inscriptionAllRead']);

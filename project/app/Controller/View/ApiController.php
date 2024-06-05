@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Action;
+namespace App\Controller\View;
 
 use App\Domain\User;
 use App\Http\Request;
@@ -64,9 +64,9 @@ class ApiController
         return (new Response)->json(['updated' => $result]);
     }
 
-    public function delete(Request $request)
+    public function inscriptionDelete(Request $request, int $id)
     {
-        $response = new \stdClass;
+        /* $response = new \stdClass;
 
         $id = $request->get('id');
 
@@ -75,6 +75,8 @@ class ApiController
         if (isset($result['error'])) {
             return (new Response)->json($result);
         }
+
+        return (new Response)->json(['deleted' => $id]); */
 
         return (new Response)->json(['deleted' => $id]);
     }

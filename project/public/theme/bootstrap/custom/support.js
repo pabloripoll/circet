@@ -64,3 +64,19 @@ async function formPost(bundle) {
 
     return postRespond
 }
+
+async function jsonDelete(bundle) {
+    const deleteRequest = await fetch(bundle.url, {
+        method  : 'DELETE',
+        /* headers : {
+            Accept          : "application/json",
+            dataType        : "json",
+            contentType     : 'application/json',
+        },
+        body : JSON.stringify(bundle.data) */
+    })
+
+    const deleteRespond = await deleteRequest.json()
+
+    return deleteRespond
+}
