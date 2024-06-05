@@ -185,9 +185,9 @@ Makefile  project-destroy         removes the project from Docker network destro
 Makefile  backend-ssh             enters the backend container shell
 Makefile  backend-install         installs set version of backend into container
 Makefile  backend-update          updates set version of backend into container
-Makefile  database-ssh            enters the database container shell
-Makefile  database-install        installs set version of database into container
-Makefile  database-update         updates set version of database into container
+Makefile  database-install        installs into container database the init sql file from resources/database
+Makefile  database-replace        replaces container database with the latest sql backup file from resources/database
+Makefile  database-backup         creates / replace a sql backup file from container database in resources/database
 Makefile  repo-flush              clears local git repository cache specially to update .gitignore
 Makefile  repo-commit             echoes commit helper commands
 ```
