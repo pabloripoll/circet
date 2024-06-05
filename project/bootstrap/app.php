@@ -16,7 +16,7 @@ class Application extends Kernel
     }
 
     /**
-     *
+     * Run the application method to set the correspondant adaptor
      */
     public function run()
     {
