@@ -14,19 +14,33 @@ class UserInscriptionGetCase
 
     public function all()
     {
-        $query = "SELECT * FROM ".$this->table();
+        $response = new \stdClass;
 
+        $query = "SELECT * FROM ".$this->table();
         $result = (new ClusterA)->select($query);
 
-        return $result;
+        if (isset($result['error'])) {
+            return $result;
+        }
+
+        $list = [];
+        if (count($result) > 0) {
+            foreach ($result as $row) {
+                $list[] = User::inscription()->object()->value($row);
+            }
+        }
+        $response->list = $list;
+
+        return $response;
     }
 
     public function byId(int $id)
     {
         $query = "SELECT * FROM ".$this->table()." WHERE id='$id'";
+
         $result = (new ClusterA)->select($query);
 
-        return ! $result ? [] : $result[0];
+        return ! $result ? [] : User::inscription()->object()->value($result[0]);
     }
 
 }

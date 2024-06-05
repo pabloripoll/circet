@@ -30,14 +30,14 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (! $result):
+                    if (! $result || ! isset($result->list)):
                         ?>
                         <tr align="center">
                             <th colspan="6">no registers</th>
                         </tr>
                         <?php
                     else:
-                        foreach ($result as $row):
+                        foreach ($result->list as $row):
                         ?>
                             <tr id="row-<?= $row->id ?>">
                                 <th scope="row"><?= $row->id ?></th>

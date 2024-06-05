@@ -187,9 +187,4 @@ class UserInscriptionValidation
         return ! $this->error ? $picture : null;
     }
 
-    public function deleted_at(string $deleted_at): string | null
-    {
-        return $deleted_at;
-    }
-
 }

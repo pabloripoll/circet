@@ -4,7 +4,6 @@ namespace App\Domain\Driven\User\Entity;
 
 use App\Domain\Driven\User\Model\UserInscriptionModel;
 use App\Domain\Driven\User\Object\UserInscriptionObject;
-use App\Domain\Driven\User\Validation\UserInscriptionValidation;
 use App\Domain\Driven\User\Repository\UserInscriptionRepository;
 
 class UserInscriptionEntity
