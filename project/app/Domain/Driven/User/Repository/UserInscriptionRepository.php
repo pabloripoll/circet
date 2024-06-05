@@ -2,23 +2,33 @@
 
 namespace App\Domain\Driven\User\Repository;
 
-use App\Domain\Driven\User\Case\UserIncriptionGetCase;
-use App\Domain\Driven\User\Case\UserIncriptionSetRowCase;
+use App\Domain\Driven\User\Case\UserInscriptionGetCase;
+use App\Domain\Driven\User\Case\UserInscriptionSetCase;
+use App\Domain\Driven\User\Case\UserInscriptionDelCase;
 
-class UserIncriptionRepository
+class UserInscriptionRepository
 {
-    public function get()
+    public function get(): mixed
     {
-        return new UserIncriptionGetCase;
+        return new UserInscriptionGetCase;
     }
 
-    public function set(object $entity = null): object
+    public function set(object $entity = null): mixed
     {
         if ($entity) {
-            return (new UserIncriptionSetRowCase)->setRow($entity);
+            return (new UserInscriptionSetCase)->setRow($entity);
         }
 
-        return new UserIncriptionSetRowCase;
+        return new UserInscriptionSetCase;
+    }
+
+    public function delete(int $id = null): mixed
+    {
+        if ($id) {
+            return (new UserInscriptionDelCase)->deleteRow($id);
+        }
+
+        return new UserInscriptionDelCase;
     }
 
 }

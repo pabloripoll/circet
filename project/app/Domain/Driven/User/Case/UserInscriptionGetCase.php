@@ -7,14 +7,18 @@ use App\Database\Client\ClusterA;
 
 class UserInscriptionGetCase
 {
-    protected function model(): object
+    private function table(): string
     {
-        return User::main()->model();
+        return User::inscription()->model()->table();
     }
 
-    public function selectAll()
+    public function all()
     {
-        return (new ClusterA)->select("SELECT * FROM inscriptions");
+        $query = "SELECT * FROM ".$this->table();
+
+        $result = (new ClusterA)->select($query);
+
+        return $result;
     }
 
 }

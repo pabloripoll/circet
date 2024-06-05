@@ -23,7 +23,7 @@ class ViewController
 
         $data->page = 'listing';
 
-        $data->result = User::inscription()->get()->all();
+        $data->result = User::inscription()->repository()->get()->all();
 
         return (new Response)->view('listing', $data);
     }

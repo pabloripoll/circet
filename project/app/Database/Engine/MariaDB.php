@@ -41,9 +41,16 @@ class MariaDB
 	}
 
     /**
-     * All statements have public access
+     * Preset database connection to create or update register
      */
+    public function preset()
+	{
+        return $this->_connection;
+	}
 
+    /**
+     * Retrieves
+     */
 	public function select(string $query)
 	{
 		$result = [];
@@ -57,55 +64,11 @@ class MariaDB
                 }
             }
 
-        } catch(PDOException $e) {
-
-            return $result[] = $e->getMessage();
-        }
-	}
-
-    public function insert(string $query)
-	{
-		$result = null;
-
-		try {
-            $stmt = $this->_connection->prepare($query);
-            $stmt->execute();
-
-            return $this->_connection->lastInsertId();
+            return $result;
 
         } catch(PDOException $e) {
 
-            return $result[] = $e->getMessage();
-        }
-	}
-
-    public function update(string $query)
-	{
-		$result = null;
-
-		try {
-            $stmt = $this->_connection->prepare($query);
-
-            return $stmt->execute();
-
-        } catch(PDOException $e) {
-
-            return $result[] = $e->getMessage();
-        }
-	}
-
-    public function delete(string $query)
-	{
-		$result = null;
-
-		try {
-            $stmt = $this->_connection->prepare($query);
-
-            return $stmt->execute();
-
-        } catch(PDOException $e) {
-
-            return $result[] = $e->getMessage();
+            return ['error' => json_encode($e->getMessage())];
         }
 	}
 

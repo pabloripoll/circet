@@ -7,48 +7,45 @@ use App\Database\Client\ClusterA;
 
 class UserInscriptionSetCase
 {
-    protected function model(): object
+    private function table(): string
     {
-        return User::main()->model();
+        return User::inscription()->model()->table();
     }
 
-    public function setRow(object $entity): object
+    public function setRow(object $entity): mixed
     {
-        $row = ! isset($entity->id) ? $this->model() : $this->model()->find($entity->id);
+        try {
+            $database = (new ClusterA)->preset();
 
-        ! isset($entity->uid) ? : $row->uid = $entity->uid;
+            $params = '';
+            ! isset($entity->id) ? : $params .= "id=:id, ";
+            ! isset($entity->terms) ? : $params .= "terms=:terms, ";
+            ! isset($entity->name) ? : $params .= "name=:name, ";
+            ! isset($entity->surname) ? : $params .= "surname=:surname, ";
+            ! isset($entity->email) ? : $params .= "email=:email, ";
+            ! isset($entity->phone) ? : $params .= "phone=:phone, ";
+            ! isset($entity->address) ? : $params .= "address=:address, ";
 
-        ! isset($entity->client_id) ? : $row->client_id = $entity->client_id;
+            $query = (! isset($entity->id) ? 'INSERT INTO' : 'UPDATE')." `".$this->table()."` SET ".(substr($params, 0, -2));
+            $query = ! isset($entity->id) ? $query : $query.' WHERE id=:id';
+            $stmt  = $database->prepare($query);
 
-        ! isset($entity->is_active) ? : $row->is_active = $entity->is_active;
+            ! isset($entity->id)      ? : $stmt->bindParam(":id", $entity->id);
+            ! isset($entity->terms)   ? : $stmt->bindParam(":terms", $entity->terms);
+            ! isset($entity->name)    ? : $stmt->bindParam(":name", $entity->name);
+            ! isset($entity->surname) ? : $stmt->bindParam(":surname", $entity->surname);
+            ! isset($entity->email)   ? : $stmt->bindParam(":email", $entity->email);
+            ! isset($entity->phone)   ? : $stmt->bindParam(":phone", $entity->phone);
+            ! isset($entity->address) ? : $stmt->bindParam(":address", $entity->address);
 
-        ! isset($entity->lang_id) ? : $row->lang_id = $entity->lang_id;
+            $stmt->execute();
 
-        ! isset($entity->user) ? : $row->user = $entity->user;
+            return ! isset($entity->id) ? $database->lastInsertId() : $stmt->rowCount();
 
-        ! isset($entity->password) ? : $row->password = Hash::make($entity->password);
+        } catch(\PDOException $e) {
 
-        ! isset($entity->passquest) ? : $row->passquest = $entity->passquest;
-
-        ! isset($entity->pin) ? : $row->pin = $entity->pin;
-
-        ! isset($entity->email) ? : $row->email = $entity->email;
-
-        ! isset($entity->name) ? : $row->name = $entity->name;
-
-        ! isset($entity->surname) ? : $row->surname = $entity->surname;
-
-        ! isset($entity->phone) ? : $row->phone = $entity->phone;
-
-        ! isset($entity->job) ? : $row->job = $entity->job;
-
-        ! isset($entity->picture) ? : $row->picture = $entity->picture;
-
-        ! isset($entity->deleted_at) ? : $row->deleted_at = $entity->deleted_at;
-
-        $row->save();
-
-        return $row;
+            return ['error' => json_encode($e->getMessage())];
+        }
     }
 
 }

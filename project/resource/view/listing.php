@@ -6,6 +6,7 @@
     <h2>Listing Page</h2>
     <br>
     <p class="lead">
+        <?= print_r($result) ?><br><br>
         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
     </p>
 </div>

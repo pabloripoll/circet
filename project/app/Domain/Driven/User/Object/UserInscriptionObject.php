@@ -24,23 +24,14 @@ class UserInscriptionObject extends stdClass
         $object = new stdClass;
 
         $object->id = $row->id ?? null;
-        $object->uid = $row->uid ?? null;
-        $object->client_id = $row->client_id ?? null;
-        $object->is_active = $row->is_active ?? null;
-        $object->lang_id = $row->lang_id ?? null;
-        $object->user = $row->user ?? null;
-        $object->password = $row->password ?? null;
-        $object->passquest = $row->passquest ?? null;
-        $object->pin = $row->pin ?? null;
-        $object->email = $row->email ?? null;
+        $object->terms = $row->terms ?? null;
         $object->name = $row->name ?? null;
         $object->surname = $row->surname ?? null;
+        $object->email = $row->email ?? null;
         $object->phone = $row->phone ?? null;
-        $object->job = $row->job ?? null;
-        $object->picture = $row->picture ?? null;
-        $object->created_at = $row->created_at ? $row->created_at->toDateTimeString() : null;
-        $object->updated_at = $row->updated_at ? $row->updated_at->toDateTimeString() : null;
-        $object->deleted_at = $row->deleted_at ? $row->deleted_at->toDateTimeString() : null;
+        $object->address = $row->address ?? null;
+        $object->created_at = $row->created_at ?? null;
+        $object->updated_at = $row->updated_at ?? null;
 
         return $object;
     }
@@ -54,49 +45,9 @@ class UserInscriptionObject extends stdClass
         return $id;
     }
 
-    public function uid(int $uid): int
+    public function terms(int $terms): int
     {
-        return $uid;
-    }
-
-    public function client_id(int $client_id): int
-    {
-        return $client_id;
-    }
-
-    public function is_active(bool $is_active): bool
-    {
-        return $is_active;
-    }
-
-    public function lang_id(int $lang_id): int
-    {
-        return $lang_id;
-    }
-
-    public function user(string $user): string
-    {
-        return $user;
-    }
-
-    public function password(string $password): string
-    {
-        return $password;
-    }
-
-    public function passquest(string $passquest): string
-    {
-        return $passquest;
-    }
-
-    public function pin(string $pin): string
-    {
-        return $pin;
-    }
-
-    public function email(string $email): string
-    {
-        return $email;
+        return $terms;
     }
 
     public function name(string $name): string
@@ -109,19 +60,19 @@ class UserInscriptionObject extends stdClass
         return $surname;
     }
 
+    public function email(string $email): string
+    {
+        return $email;
+    }
+
     public function phone(string $phone): string
     {
         return $phone;
     }
 
-    public function job(string $job): string
+    public function address(string $address): string
     {
-        return $job;
-    }
-
-    public function picture(string $picture): string
-    {
-        return $picture;
+        return $address;
     }
 
     public function created_at(string $created_at): string
@@ -132,11 +83,6 @@ class UserInscriptionObject extends stdClass
     public function updated_at(string $updated_at): string
     {
         return $updated_at;
-    }
-
-    public function deleted_at(string $deleted_at): string
-    {
-        return $deleted_at;
     }
 
 }
