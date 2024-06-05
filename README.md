@@ -89,6 +89,10 @@ User: -------------- mariadb
 Password: ---------- 123456
 ```
 
+<div style="width:100%;float:left;clear:both;margin-bottom:50px;">
+    <img style="float:left;" src="resources/project/cap-heidi-conn.png"/>
+</div>
+
 ## Conectar Contenedores
 
 Para conectar el servicio "backend" con la "base de datos" se deberá utilizar los mismos datos que para la conexión con el cliente de base de datos.
@@ -191,6 +195,25 @@ Makefile  database-backup         creates / replace a sql backup file from conta
 Makefile  repo-flush              clears local git repository cache specially to update .gitignore
 Makefile  repo-commit             echoes commit helper commands
 ```
+
+## Capturas Varias
+
+<div style="width:100%;float:left;clear:both;margin-bottom:50px;">
+    <img style="float:left;" src="resources/project/cap-form-danger.png"/>
+</div>
+
+<div style="width:100%;float:left;clear:both;margin-bottom:50px;">
+    <img style="float:left;" src="resources/project/cap-form-success.png"/>
+</div>
+
+<div style="width:100%;float:left;clear:both;margin-bottom:50px;">
+    <img style="float:left;" src="resources/project/cap-list.png"/>
+</div>
+
+<div style="width:100%;float:left;clear:both;margin-bottom:50px;">
+    <img style="float:left;" src="resources/project/cap-heidi-data.png"/>
+</div>
+
 
 ## Repositorios de referencia:
 
