@@ -16,78 +16,50 @@ class InscriptionController
 
     public function getById($id)
     {
-        $id = (int) $id;
+        $id = intval($id);
 
         return User::inscription()->repository()->get()->byId($id);
     }
 
-    public function create(Request $request)
+    public function create(object $entity)
     {
-        $response = new \stdClass;
-
-        $entity = (object) [
-            'terms' => $request->post('terms'),
-            'name' => $request->post('name'),
-            'surname' => $request->post('surame'),
-            'email' => $request->post('email'),
-            'phone' => $request->post('phone'),
-            'address' => $request->post('address')
-        ];
-
-        $result = User::inscription()->repository()->set($entity);
-
-        if (isset($result['error'])) {
-            return (new Response)->json($result);
+        $i = 0;
+        $required = ['name', 'surname', 'email', 'address'];
+        foreach ($entity as $key => $value) {
+            if (in_array($key, $required) && empty($value)) {
+                $i++;
+            }
         }
 
-        return (new Response)->json(['data' => $result]);
-    }
-
-    public function read(Request $request)
-    {
-        $response = new \stdClass;
-
-
-        return (new Response)->json(['data' => $request->get('id')]);
-    }
-
-    public function update(Request $request)
-    {
-        $response = new \stdClass;
-
-        $id = $request->get('id');
-
-        $entity = (object) [
-            'id' => $request->post('id'),
-            'terms' => $request->post('terms'),
-            'name' => $request->post('name'),
-            'surname' => $request->post('surame'),
-            'email' => $request->post('email'),
-            'phone' => $request->post('phone'),
-            'address' => $request->post('address')
-        ];
-
-        $result = User::inscription()->repository()->set($entity);
-
-        if (isset($result['error'])) {
-            return (new Response)->json($result);
+        if ($i > 0) {
+            return ['error' => 'complete required fields'];
         }
 
-        return (new Response)->json(['updated' => $result]);
+        $entity->terms = $entity->terms == 'false' ? 0 : 1;
+        if (! $entity->terms) {
+            return ['error' => 'terms must be accepted'];
+        }
+
+        return User::inscription()->repository()->set($entity);
     }
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $response = new \stdClass;
+        if (! is_numeric($id)) {
+            return ['error' => 'id is not numeric'];
+        }
 
-        $id = $request->get('id');
+        $result = User::inscription()->repository()->get()->byId($id);
+        if (! $result) {
+            return ['error' => 'resource not found'];
+        }
 
         $result = User::inscription()->repository()->delete($id);
-
-        if (isset($result['error'])) {
-            return (new Response)->json($result);
+        if (! $result) {
+            return ['error' => 'resource cannot be deleted'];
         }
 
-        return (new Response)->json(['deleted' => $id]);
+        return $id;
     }
+
 }

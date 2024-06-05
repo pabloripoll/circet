@@ -16,7 +16,7 @@ class UserInscriptionDelCase
     {
         try {
 
-            return (new ClusterA)->preset()->prepare("DELETE FROM `".$this->table()."` WHERE id=?")->execute($id);
+            return (new ClusterA)->preset()->prepare("DELETE FROM `".$this->table()."` WHERE id=$id")->execute();
 
         } catch(\PDOException $e) {
 
