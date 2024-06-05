@@ -2,31 +2,37 @@
 
 namespace App\Controller\View;
 
+use App\Http\Request;
 use App\Http\Response;
+use App\Database\ClusterA;
+use App\Support\Debug;
+use PDO;
 
 class ViewController
 {
-    protected function data()
-    {
-        return $data = new \stdClass;
-    }
-
     public function home()
     {
-        $data = $this->data();
+        $data = new \stdClass;
 
         $data->page = 'home';
+
+        $data->result = ClusterA::sql()->select("SELECT * FROM users");
 
         return (new Response)->view('home', $data);
     }
 
+    public function listing(Request $request)
+    {
+        $data = new \stdClass;
+
+        $data->page = 'listing';
+
+        return (new Response)->view('listing', $data);
+    }
+
     public function example()
     {
-        $data = $this->data();
-
-        $data->page = 'example';
-
-        return (new Response)->view('example', $data);
+        return (new Response)->view('example', ['page' => 'example']);
     }
 
 }

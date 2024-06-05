@@ -88,12 +88,15 @@
                     <a href="/" class="nav-link px-2 link-<?= ($page == 'home' ? 'body-emphasis' : 'secondary') ?>">Home</a>
                 </li>
                 <li>
+                    <a href="/listing" class="nav-link px-2 link-<?= ($page == 'listing' ? 'body-emphasis' : 'secondary') ?>">Listing</a>
+                </li>
+                <li>
                     <a href="/example" class="nav-link px-2 link-<?= ($page == 'example' ? 'body-emphasis' : 'secondary') ?>">Example</a>
                 </li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search" disabled>
             </form>
 
             <div class="dropdown text-end">

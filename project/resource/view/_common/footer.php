@@ -11,5 +11,6 @@
     </div>
     <script src="/theme/bootstrap/assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/theme/bootstrap/custom/checkout.js"></script>
+    <script src="/theme/bootstrap/custom/support.js?v=<?= rand(100, 1000) ?>"></script>
 </body>
 </html>

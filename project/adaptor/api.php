@@ -1,12 +1,19 @@
 <?php
 
-/* use App\Http\Route;
-use App\Adaptor\InputAdaptor;
+use App\Http\Route;
+use App\Http\Response;
+use App\Controller\Action\InscriptionController;
 
-Route::get('/', [InputAdaptor::class, 'httpApiGet']);
-Route::post('/', [InputAdaptor::class, 'httpApiPost']);
-Route::put('/', [InputAdaptor::class, 'httpApiPut']);
-Route::patch('/', [InputAdaptor::class, 'httpApiPatch']);
-Route::delete('/', [InputAdaptor::class, 'httpApiDelete']);
-Route::head('/', [InputAdaptor::class, 'httpApiHead']);
-Route::options('/', [InputAdaptor::class, 'httpApiOptions']); */
+Route::get('/', function() {
+    return (new Response)->json(['data' => 'no resource']);
+});
+
+Route::get('/inscription', [InscriptionController::class, 'read']);
+
+Route::put('/inscription', [InscriptionController::class, 'update']);
+
+Route::post('/inscription', [InscriptionController::class, 'create']);
+
+Route::delete('/inscription', [InscriptionController::class, 'delete']);
+
+Route::get('/inscription/listing', [InscriptionController::class, 'read']);

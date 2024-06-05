@@ -9,14 +9,12 @@ if ($debug) {
 
 require_once dirname(__DIR__, 1).'/vendor/autoload.php';
 
-// Defines adptor router
-$root = explode('/', $_SERVER['REQUEST_URI'])[1] ?? '';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
-if ($root == 'api') {
-    $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], 4);
-    $_SERVER['REQUEST_URI'] = empty($_SERVER['REQUEST_URI']) ? '/' : $_SERVER['REQUEST_URI'];
+$app->middlewareBefore();
 
-    include_once dirname(__DIR__, 1).'/adaptor/api.php';
-}
+$app->run();
 
-include_once dirname(__DIR__, 1).'/adaptor/web.php';
+$app->middlewareAfter();
+
+exit;

@@ -4,7 +4,28 @@ namespace App\Http;
 
 class Response
 {
-    public function view(string $script, array | object $data = null)
+    /**
+     * JSON response format
+     */
+    public function json(object | array $data = null, int $state = 200): void
+    {
+        ob_start();
+
+        ob_clean();
+
+        header_remove();
+
+        header("Content-type: application/json; charset=utf-8");
+
+        http_response_code($state);
+
+        echo json_encode($data);
+    }
+
+    /**
+     * HTML view
+     */
+    public function view(string $script, array | object $data = null): void
     {
         $script = (str_replace('.', '/', $script)).'.php';
 
@@ -28,21 +49,9 @@ class Response
             echo $html;
 
         } catch (Exception $e) {
+
             echo 'Caught exception: ', $e->getMessage(),"\n";
-
-            die;
         }
-    }
-
-    public function json(object | array $data = null, int $state = 200)
-    {
-        header('Content-Type: application/json; charset=utf-8');
-
-        http_response_code($state);
-
-        echo json_encode($data);
-
-        exit;
     }
 
 }
