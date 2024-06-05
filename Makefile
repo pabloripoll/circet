@@ -80,14 +80,17 @@ backend-update: ## updates set version of backend into container
 # -------------------------------------------------------------------------------------------------
 .PHONY: database-ssh database-install database-update
 
-database-ssh: ## enters the database container shell
-	cd docker/mariadb && $(MAKE) ssh
+database-install: ## installs into container database the init sql file from resources/database
+	sudo docker exec -i $(DATABASE_CAAS) sh -c 'exec mysql $(DATABASE_NAME) -uroot -p"$(DATABASE_ROOT)"' < $(DATABASE_PATH)$(DATABASE_INIT)
+	echo ${C_YEL}"DATABASE"${C_END}" has been installed."
 
-database-install: ## installs set version of database into container
-	cd docker/mariadb && $(MAKE) app-install
+database-replace: ## replaces container database with the latest sql backup file from resources/database
+	sudo docker exec -i $(DATABASE_CAAS) sh -c 'exec mysql $(DATABASE_NAME) -uroot -p"$(DATABASE_ROOT)"' < $(DATABASE_PATH)$(DATABASE_BACK)
+	echo ${C_YEL}"DATABASE"${C_END}" has been replaced."
 
-database-update: ## updates set version of database into container
-	cd docker/mariadb && $(MAKE) app-update
+database-backup: ## creates / replace a sql backup file from container database in resources/database
+	sudo docker exec $(DATABASE_CAAS) sh -c 'exec mysqldump $(DATABASE_NAME) -uroot -p"$(DATABASE_ROOT)"' > $(DATABASE_PATH)$(DATABASE_BACK)
+	echo ${C_YEL}"DATABASE"${C_END}" backup has been created."
 
 # -------------------------------------------------------------------------------------------------
 #  Repository Helper
