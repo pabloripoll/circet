@@ -4,6 +4,7 @@ namespace App\Domain\Driven\User\Case;
 
 use App\Domain\User;
 use App\Database\Client\ClusterA;
+use App\Domain\Contract\Case\DomainDelCaseInterface;
 
 class UserInscriptionDelCase
 {
@@ -12,7 +13,7 @@ class UserInscriptionDelCase
         return User::inscription()->model()->table();
     }
 
-    public function deleteRow(int $id): mixed
+    public function delete(int $id): mixed
     {
         try {
 

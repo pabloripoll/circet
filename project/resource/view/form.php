@@ -8,7 +8,7 @@
 </div>
 <div class="row g-5">
     <div class="col-md-12">
-        <h4 class="mb-3">Inscription Form <?= (! isset($register) ? : '- Update ID: '.($register->id ?? 'NOT FOUND')) ?></h4>
+        <h4 class="mb-3">Inscription Form <?= (! isset($register) ? '' : '- Update ID: '.($register->id ?? 'NOT FOUND')) ?></h4>
         <input type="hidden" id="formType" value="<?= (! isset($register) ? 'create' : 'update') ?>">
         <input type="hidden" id="formTypeId" value="<?= $register->id ?? '' ?>">
         <form id="inscription" class="needs-validation" onsubmit="return false" novalidate>
@@ -41,7 +41,7 @@
             </div>
             <hr class="my-4">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="terms" value="1" checked>
+                <input type="checkbox" class="form-check-input" id="terms" value="true" checked>
                 <label class="form-check-label" for="terms">I agreed with with <a href="#">"Terms of Use"</a></label>
             </div>
             <hr class="my-4">
@@ -82,7 +82,8 @@ function formAvailability(state = true) {
         submitButton.innerHTML = `Done!`
 
         for (var i = 0, l = form.length; i < l; ++i) {
-            form[i].readOnly = true
+            //form[i].readOnly = true
+            form[i].disabled = false
         }
 
         return
@@ -137,6 +138,9 @@ function formHandler(response) {
         formAvailability('finished')
         formStatus('success')
     }
+    if (response.created) {
+        location.href = `/form?id=${response.created}`
+    }
 }
 
 function formErrorHandler(error) {
@@ -164,7 +168,9 @@ function formSender(event) {
 
     if (formType.value == 'create') {
         jsonPost(bundle).then((response) => {
+
             formHandler(response)
+
         }).catch((error) => {
             formErrorHandler(error)
         })
@@ -172,9 +178,11 @@ function formSender(event) {
 
     if (formType.value == 'update') {
         jsonPut(bundle).then((response) => {
+
             formHandler(response)
             setTimeout(formAvailability, 3000, true)
             setTimeout(formStatus, 3000, 'neutral')
+
         }).catch((error) => {
             formErrorHandler(error)
         })

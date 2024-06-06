@@ -2,11 +2,12 @@
 
 namespace App\Domain\Driven\User\Entity;
 
+use App\Domain\Contract\Entity\DomainEntityInterface;
 use App\Domain\Driven\User\Model\UserInscriptionModel;
 use App\Domain\Driven\User\Object\UserInscriptionObject;
 use App\Domain\Driven\User\Repository\UserInscriptionRepository;
 
-class UserInscriptionEntity
+class UserInscriptionEntity implements DomainEntityInterface
 {
     public function model()
     {

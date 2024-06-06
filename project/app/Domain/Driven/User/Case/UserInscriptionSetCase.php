@@ -4,15 +4,16 @@ namespace App\Domain\Driven\User\Case;
 
 use App\Domain\User;
 use App\Database\Client\ClusterA;
+use App\Domain\Contract\Case\DomainSetCaseInterface;
 
-class UserInscriptionSetCase
+class UserInscriptionSetCase implements DomainSetCaseInterface
 {
     private function table(): string
     {
         return User::inscription()->model()->table();
     }
 
-    public function setRow(object $entity): mixed
+    public function set(object $entity): mixed
     {
         try {
             $database = (new ClusterA)->preset();

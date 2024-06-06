@@ -3,8 +3,6 @@
 namespace App\Controller\Domain;
 
 use App\Domain\User;
-use App\Http\Request;
-use App\Http\Response;
 use App\Support\Debug;
 
 class InscriptionController
@@ -16,24 +14,24 @@ class InscriptionController
 
     public function getById($id)
     {
-        $id = intval($id);
+        $validation = User::inscription()->object()->validation()->id($id);
+
+        if ($validation != $id) {
+            return ['error' => 'id not valid'];
+        }
 
         return User::inscription()->repository()->get()->byId($id);
     }
 
     public function create(object $entity)
     {
-        $i = 0;
-        $required = ['name', 'surname', 'email', 'address'];
-        foreach ($entity as $key => $value) {
-            if (in_array($key, $required) && empty($value)) {
-                $i++;
-            }
+        $validate = User::inscription()->object()->safe($entity);
+
+        if ($validate->has_errors) {
+            return ['error' => '['.$validate->first.'] '.$validate->errors[$validate->first]];
         }
 
-        if ($i > 0) {
-            return ['error' => 'complete required fields'];
-        }
+        $entity = $validate->entity;
 
         $entity->terms = $entity->terms == 'false' ? 0 : 1;
         if (! $entity->terms) {
@@ -45,28 +43,22 @@ class InscriptionController
 
     public function update(object $entity, $id)
     {
-        $i = 0;
-        $required = ['name', 'surname', 'email', 'address'];
-        foreach ($entity as $key => $value) {
-            if (in_array($key, $required) && empty($value)) {
-                $i++;
-            }
+        $validate = User::inscription()->object()->safe($entity);
+        if ($validate->has_errors) {
+            return ['error' => '['.$validate->first.'] '.$validate->errors[$validate->first]];
         }
+        $entity = $validate->entity;
 
-        if ($i > 0) {
-            return ['error' => 'complete required fields'];
+        $validation = User::inscription()->object()->validation()->id($id);
+        if ($validation != $id) {
+            return ['error' => 'id not valid'];
         }
+        $entity->id = $id;
 
         $entity->terms = $entity->terms == 'false' ? 0 : 1;
         if (! $entity->terms) {
             return ['error' => 'terms must be accepted'];
         }
-
-        if (! is_numeric($id)) {
-            return ['error' => 'id is not valid'];
-        }
-
-        $entity->id = intval($id);
 
         User::inscription()->repository()->set($entity);
 
@@ -75,8 +67,10 @@ class InscriptionController
 
     public function delete($id)
     {
-        if (! is_numeric($id)) {
-            return ['error' => 'id is not numeric'];
+        $validation = User::inscription()->object()->validation()->id($id);
+
+        if ($validation != $id) {
+            return ['error' => 'id not valid'];
         }
 
         $result = User::inscription()->repository()->get()->byId($id);

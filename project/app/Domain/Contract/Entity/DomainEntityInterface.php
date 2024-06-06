@@ -6,8 +6,6 @@ interface DomainEntityInterface
 {
     public function model();
 
-    public function mocking();
-
     public function object();
 
     public function validation();

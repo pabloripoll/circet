@@ -20,7 +20,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Names</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
@@ -47,7 +47,7 @@
                                 <td><?= $row->updated_at ?></td>
                                 <td>
                                     <a href="/form?id=<?= $row->id ?>" title="update register <?= $row->email ?>">edit</a> |
-                                    <a href="#" onclick="remove('<?= $row->id ?>')" title="delete register <?= $row->email ?>">del</a>
+                                    <a href="javascript:;" onclick="remove('<?= $row->id ?>')" title="delete register <?= $row->email ?>">del</a>
                                 </td>
                             </tr>
                         <?php
@@ -55,13 +55,11 @@
                     endif;
                     ?>
                 </tbody>
-
             </table>
 
             <?= $this->view('_common.pagination'); ?>
 
         </div>
-
     </div>
 </div>
 

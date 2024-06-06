@@ -2,26 +2,40 @@
 
 namespace App\Domain\Driven\User\Object;
 
-use stdClass;
+use App\Domain\Contract\Object\DomainObjectAbstract;
+use App\Domain\Contract\Object\DomainObjectInterface;
 use App\Domain\Driven\User\Validation\UserInscriptionValidation;
 
-class UserInscriptionObject extends stdClass
+class UserInscriptionObject extends DomainObjectAbstract implements DomainObjectInterface
 {
-    public function safe()
+    /**
+     * Required from abstract methods
+     */
+    public function validation(): object
     {
-        $object = new UserInscriptionValidation;
-        if (! $object->bulk($this)) {
-            $this->error = $object->error();
-
-            return false;
-        }
-
-        return true;
+        return new UserInscriptionValidation;
     }
 
+    /**
+     * Required for inputs
+     */
+    public function required(): array
+    {
+        return [
+            'terms',
+            'name',
+            'surname',
+            'email',
+            'address'
+        ];
+    }
+
+    /**
+     * Output normalized value or required properties
+     */
     public function value(object $row = null): object
     {
-        $object = new stdClass;
+        $object = new \stdClass;
 
         $object->id = $row->id ?? null;
         $object->terms = $row->terms ?? null;

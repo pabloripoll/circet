@@ -2,10 +2,8 @@
 
 namespace App\Controller\View;
 
-use App\Domain\User;
 use App\Http\Request;
 use App\Http\Response;
-use App\Support\Debug;
 use App\Controller\Domain\InscriptionController;
 
 class ApiController
@@ -13,12 +11,12 @@ class ApiController
     public function inscriptionCreate(Request $request)
     {
         $entity = (object) [
-            'terms' => trim($request->post('terms')) ?? '',
-            'name' => trim($request->post('name')) ?? '',
-            'surname' => trim($request->post('surname')) ?? '',
-            'email' => trim($request->post('email')) ?? '',
-            'phone' => trim($request->post('phone')) ?? '',
-            'address' => trim($request->post('address')) ?? ''
+            'terms' => $request->post('terms') ?? '',
+            'name' => $request->post('name') ?? '',
+            'surname' => $request->post('surname') ?? '',
+            'email' => $request->post('email') ?? '',
+            'phone' => $request->post('phone') ?? '',
+            'address' => $request->post('address') ?? ''
         ];
 
         $result = (new InscriptionController)->create($entity);
@@ -35,12 +33,12 @@ class ApiController
         $request = (object) $request->input();
 
         $entity = (object) [
-            'terms' => trim($request->terms) ?? '',
-            'name' => trim($request->name) ?? '',
-            'surname' => trim($request->surname) ?? '',
-            'email' => trim($request->email) ?? '',
-            'phone' => trim($request->phone) ?? '',
-            'address' => trim($request->address) ?? ''
+            'terms' => $request->terms ?? '',
+            'name' => $request->name ?? '',
+            'surname' => $request->surname ?? '',
+            'email' => $request->email ?? '',
+            'phone' => $request->phone ?? '',
+            'address' => $request->address ?? ''
         ];
 
         $result = (new InscriptionController)->update($entity, $id);
